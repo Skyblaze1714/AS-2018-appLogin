@@ -1,46 +1,61 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/throw'
 
-export class User {
-
-  private _email: string;
-  private _password: string;
-
-  constructor(email: string, password: string) {
-    if(email){
-      
-    }
-  }
-
-  get email(){return this._email}
-  set email(email: string){
-
-  }
-
-  get password(){return this._password}
-  set password(password: string){
-
-  }
-
+export interface User {
+  email: string,
+  password: string
 }
 
 //Class for the authentication service
 @Injectable()
 export class AuthProvider {
 
-  storgae: Storage = new Storage({});
+  currentUser: User;
+  storage: Storage = new Storage({});
 
   constructor() {
     console.log('Hello AuthProvider Provider');
+    this.storage.set('prova', '1234').then(() => {})
+    this.storage.get('prova').then(pass => console.log(pass));
   }
 
-  public async login(){
+  public login(user: User){
+    if (!user || user.email == null || user.password == null)
+      return Observable.throw("Please insert credentials");
+    else {
+      return Observable.create(async observer => {
+        let access: boolean = false;
 
+        if ((await this.storage.keys()).indexOf(user.email) != -1) {
+          if (user.password === await this.storage.get(user.email)) {
+            access = true;
+            this.currentUser = user;
+          }
+        }
+
+        observer.next(access);
+        observer.complete();
+      });
+    }
   }
 
-  public async register(user: User){
-    if(User == null) {
-
+  public register(user: User){
+    if (!user || user.email == null || user.password == null)
+      return Observable.throw("Invalid credentials");
+    else {
+      return Observable.create(async observer => {
+        if (await this.storage.get(user.email) != undefined) {
+          this.storage.set(user.email, user.password)
+            .then(() => observer.next(true))
+            .catch(() => observer.next(false));
+        }
+        else {
+          observer.next(false);
+        }
+        observer.complete();
+      });
     }
   }
 
