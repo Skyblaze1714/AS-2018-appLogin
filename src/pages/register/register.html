@@ -9,14 +9,17 @@
 
 <ion-content class="register-content" padding>
   <div class="register-box">
+    <!-- Form in cui inserire le credenziali per il login -->
     <form (ngSubmit)="register()" #registerForm="ngForm">
       <ion-list>
         <ion-item>
+          <!-- Input dell'email -->
           <ion-label floating>Email</ion-label>
           <ion-input type="text" name="email" required [(ngModel)]="registerCredentials.email"></ion-input>
         </ion-item>
         
         <ion-item>
+          <!-- Input della password -->
           <ion-label floating>Password</ion-label>
           <ion-input type="password" name="password" required [(ngModel)]="registerCredentials.password"></ion-input>
         </ion-item>
@@ -25,6 +28,7 @@
       </ion-list>
       
       <ion-list>
+        <!-- Bottone per l'invio delle credenziali -->
         <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Register</button>
       </ion-list>
     </form>

@@ -6,16 +6,19 @@
   
   </ion-header>
 
-<ion-content class="login-content" padding>
-  <div class="login-box">
+  <ion-content class="login-content" padding>
+    <div class="login-box">
+    <!-- Form in cui inserire le credenziali per il login -->
     <form (ngSubmit)="login()" #registerForm="ngForm">
       <ion-list>
         <ion-item>
+          <!-- Input dell'email -->
           <ion-label floating>Email</ion-label>
           <ion-input type="text" name="email" required [(ngModel)]="loginCredentials.email"></ion-input>
         </ion-item>
         
         <ion-item>
+          <!-- Input della password -->
           <ion-label floating>Password</ion-label>
           <ion-input type="password" name="password" required [(ngModel)]="loginCredentials.password"></ion-input>
         </ion-item>
@@ -24,9 +27,11 @@
       </ion-list>
       
       <ion-list>
+        <!-- Bottone per l'invio delle credenziali -->
         <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>
-        <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button>
       </ion-list>
     </form>
+    <!-- Bottone per andare alla pagina di registrazione -->
+    <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button>
   </div>
 </ion-content>
